@@ -1,5 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+
+// Actions
+import * as actionCreators from "./store/actions/index";
 
 class Signup extends Component {
   constructor(props) {
@@ -15,13 +19,19 @@ class Signup extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentDidMount() {
+    if (!this.props.user) {
+      this.props.history.push("/");
+    }
+  }
   handleChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
 
   handleSubmit(event) {
+    console.log("hellooo");
     event.preventDefault();
-    alert("I DON'T WORK YET");
+    this.props.signup(this.state, this.props.history);
   }
 
   render() {
@@ -83,4 +93,13 @@ class Signup extends Component {
   }
 }
 
-export default Signup;
+const mapDispatchToProps = dispatch => ({
+  signup: (userData, history) => {
+    dispatch(actionCreators.signup(userData, history));
+  }
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Signup);
