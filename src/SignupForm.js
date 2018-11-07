@@ -20,7 +20,13 @@ class Signup extends Component {
   }
 
   componentDidMount() {
-    if (!this.props.user) {
+    if (this.props.user) {
+      this.props.history.push("/");
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.props.user) {
       this.props.history.push("/");
     }
   }
@@ -99,7 +105,13 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
+const mapStateToProps = state => {
+  return {
+    user: state.rootAuth.user
+  };
+};
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Signup);
